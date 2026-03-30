@@ -6,6 +6,18 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/xramesh57/docker-jenkins-app.git'
+            }
+        }
+
         stage('Build Image') {
             steps {
                 sh 'docker build --no-cache -t $IMAGE_NAME .'
