@@ -37,16 +37,5 @@ pipeline {
                 sh 'docker push $IMAGE_NAME'
             }
         }
-
-        stage('Deploy') {
-            steps {
-                sh '''
-                docker stop app || true
-                docker rm app || true
-                docker rmi $IMAGE_NAME || true
-                docker run -d -p 80:80 --name app $IMAGE_NAME
-                '''
-            }
-        }
     }
 }
