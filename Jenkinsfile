@@ -2,16 +2,10 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "yourdockerhubusername/app"
+        IMAGE_NAME = "ramesh573/app"
     }
 
     stages {
-        stage('Clone Code') {
-            steps {
-                git 'https://github.com/your-username/docker-jenkins-app.git'
-            }
-        }
-
         stage('Build Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
