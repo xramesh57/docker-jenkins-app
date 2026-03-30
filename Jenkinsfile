@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh 'docker build --no-cache -t $IMAGE_NAME .'
             }
         }
 
@@ -31,7 +31,7 @@ pipeline {
                 sh '''
                 docker stop app || true
                 docker rm app || true
-                docker pull $IMAGE_NAME
+                docker rmi $IMAGE_NAME || true
                 docker run -d -p 80:80 --name app $IMAGE_NAME
                 '''
             }
