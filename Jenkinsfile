@@ -9,7 +9,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh 'docker build --no-cache -t $IMAGE_NAME .'
             }
         }
 
@@ -24,6 +24,17 @@ pipeline {
         stage('Push Image') {
             steps {
                 sh 'docker push $IMAGE_NAME'
+            }
+        }
+
+        stage('Deploy Container') {
+            steps {
+                sh '''
+                docker stop app || true
+                docker rm app || true
+                docker pull $IMAGE_NAME
+                docker run -d -p 80:80 --name app $IMAGE_NAME
+                '''
             }
         }
     }
